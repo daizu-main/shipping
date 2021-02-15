@@ -1,3 +1,5 @@
+import { GiPresent, GiTwoCoins } from "react-icons/gi"
+
 export default {
   name: "product",
   title: "Produkt",
@@ -22,9 +24,16 @@ export default {
       quantity: "quantity",
     },
     prepare({ title, quantity }) {
+      let icon = GiPresent
+      if (title.includes("Rabatt")) {
+        icon = GiTwoCoins
+      } else {
+        icon = GiPresent
+      }
       return {
         title: title,
         subtitle: `${quantity}x`,
+        media: icon,
       }
     },
   },
