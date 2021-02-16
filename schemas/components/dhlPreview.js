@@ -90,7 +90,6 @@ export default class dhlPreview extends Component {
               paddingBottom: 0,
               paddingTop: 0,
             }}
-            title={status}
             dangerouslySetInnerHTML={{ __html: status }}
           />
           <p

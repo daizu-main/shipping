@@ -74,18 +74,21 @@ export default {
       title: "Bestellnummer (z.B. Shopify)",
       type: "string",
       validation: (Rule) => Rule.required(),
+      readOnly: true,
     },
     {
       name: "shippingNumbers",
       title: "Sendungsnummer (DHL)",
       type: "array",
       of: [{ type: "string" }],
+      readOnly: true,
       validation: (Rule) => Rule.required().min(1),
     },
     {
       name: "date",
       title: "erstellt am",
       type: "datetime",
+      readOnly: true,
       options: {
         timeStep: 1,
       },
@@ -103,24 +106,28 @@ export default {
       name: "targetWeightKg",
       title: "Sollgewicht in Kilogramm",
       type: "number",
+      readOnly: true,
       validation: (Rule) => Rule.required().positive(),
     },
     {
       name: "realWeightKg",
       title: "Gewicht in Kilogramm (entsprechend Paketwaage)",
       type: "number",
+      readOnly: true,
     },
     {
       name: "products",
       title: "Produkte",
       type: "array",
       of: [{ type: "product" }],
+      readOnly: true,
       validation: (Rule) => Rule.required().min(1),
     },
     {
       name: "zipCode",
       title: "Postleitzahl des Empfängers",
       type: "string",
+      readOnly: true,
       validation: (Rule) =>
         Rule.custom((zip) => {
           if (/^[0-9]{4,5}$/.test(zip)) {
@@ -137,6 +144,7 @@ export default {
       name: "status",
       title: "Status",
       type: "string",
+      readOnly: true,
     },
     {
       name: "delivered",
@@ -147,6 +155,10 @@ export default {
       name: "dhlEvents",
       title: "Statusmeldungen von DHL",
       type: "array",
+      readOnly: true,
+      options: {
+        editModal: "popover",
+      },
       of: [{ type: "dhlEvent" }],
     },
   ],
