@@ -49,7 +49,7 @@ const StatusSymbol = ({ status }) => {
 export default class dhlPreview extends Component {
   static propTypes = { value: PropTypes.object }
   render() {
-    const { time, status, statusCode } = this.props.value
+    const { time = "", status = "", statusCode = "" } = this.props.value
     const formattedTime = formatDate(time)
     const redirected = getRedirected(status)
     const packstation = getPackstation(status)
