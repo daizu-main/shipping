@@ -3,6 +3,7 @@ import { GiTruck, GiCheckMark, GiSandsOfTime, GiMailbox } from "react-icons/gi"
 import { BsFillExclamationTriangleFill } from "react-icons/bs"
 import { ImSpinner3 } from "react-icons/im"
 import { FaDhl, FaQuestion } from "react-icons/fa"
+import { RiAdminFill, RiRoadMapFill } from "react-icons/ri"
 
 export default () =>
   S.list()
@@ -166,4 +167,8 @@ export default () =>
                 ),
             ])
         ),
+      S.listItem()
+        .title("Administration")
+        .icon(RiAdminFill)
+        .child(S.documentTypeList("administration").title("Administration")),
     ])
