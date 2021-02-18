@@ -167,8 +167,4 @@ export default () =>
                 ),
             ])
         ),
-      S.listItem()
-        .title("Administration")
-        .icon(RiAdminFill)
-        .child(S.documentTypeList("administration").title("Administration")),
     ])

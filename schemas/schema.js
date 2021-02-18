@@ -19,6 +19,5 @@ export default createSchema({
     dhlEvent,
     product,
     shipment,
-    administration,
   ]),
 })
