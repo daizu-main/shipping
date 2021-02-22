@@ -12,7 +12,10 @@ const formatDate = (inputDate) => {
 }
 
 const getRedirected = (str) => {
-  return str.includes("The shipment is being brought to")
+  return (
+    str.includes("The shipment is being brought to") ||
+    str.includes("The shipment is available for pick-up from")
+  )
 }
 
 const getPackstation = (str) => {
