@@ -6,7 +6,6 @@ import schemaTypes from "all:part:@sanity/base/schema-type"
 import dhlEvent from "./dhlEvent"
 import product from "./product"
 import shipment from "./shipment"
-import administration from "./administration"
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
