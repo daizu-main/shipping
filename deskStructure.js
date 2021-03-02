@@ -1,5 +1,12 @@
 import S from "@sanity/desk-tool/structure-builder"
-import { GiTruck, GiCheckMark, GiSandsOfTime, GiMailbox } from "react-icons/gi"
+import {
+  GiTruck,
+  GiCheckMark,
+  GiSandsOfTime,
+  GiMailbox,
+  GiReturnArrow,
+  GiFactory,
+} from "react-icons/gi"
 import { BsFillExclamationTriangleFill } from "react-icons/bs"
 import { ImSpinner3 } from "react-icons/im"
 import { FaDhl, FaQuestion } from "react-icons/fa"
@@ -29,8 +36,8 @@ export default () =>
                 .child(
                   S.documentList("shipment")
                     .title("Zugestellt")
-                    .filter("_type == $type && delivered == $delivered")
-                    .params({ type: "shipment", delivered: true })
+                    .filter("_type == $type && finalState == $finalState")
+                    .params({ type: "shipment", finalState: "delivered" })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
@@ -46,13 +53,10 @@ export default () =>
                 .child(
                   S.documentList("shipment")
                     .title("Packstation")
-                    .filter(
-                      "_type == $type && !delivered && count(dhlEvents) > $length && dhlEvents[0].status match $status"
-                    )
+                    .filter("_type == $type && finalState == $finalState")
                     .params({
                       type: "shipment",
-                      length: 0,
-                      status: "The shipment is ready for pick-up at the*",
+                      finalState: "packstation",
                     })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
@@ -69,13 +73,10 @@ export default () =>
                 .child(
                   S.documentList("shipment")
                     .title("Paketshop")
-                    .filter(
-                      "_type == $type && !delivered && count(dhlEvents) > $length && dhlEvents[0].status match $status"
-                    )
+                    .filter("_type == $type && finalState == $finalState")
                     .params({
                       type: "shipment",
-                      length: 0,
-                      status: "The shipment is being brought to*",
+                      finalState: "paketshop",
                     })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
@@ -86,21 +87,36 @@ export default () =>
                     ])
                 ),
               S.listItem()
-                .id("running")
-                .title("Laufende Lieferungen")
-                .icon(GiSandsOfTime)
+                .id("transit")
+                .title("Zustellung läuft")
+                .icon(GiTruck)
                 .child(
                   S.documentList("shipment")
-                    .title("Laufend")
-                    .filter(
-                      "_type == $type && !delivered && count(dhlEvents) > $length && !(dhlEvents[0].statusCode in $status) && !(dhlEvents[0].status match $packstation) && !(dhlEvents[0].status match $paketshop)"
-                    )
+                    .title("Zustellung läuft")
+                    .filter("_type == $type && finalState == $finalState")
                     .params({
                       type: "shipment",
-                      length: 0,
-                      status: ["failure", "unknown"],
-                      packstation: "The shipment is ready for pick-up at the*",
-                      paketshop: "The shipment is being brought to*",
+                      finalState: "transit",
+                    })
+                    .menuItems([
+                      ...S.documentTypeList("shipment").getMenuItems(),
+                      S.orderingMenuItem({
+                        title: "Date",
+                        by: [{ field: "date", direction: "desc" }],
+                      }),
+                    ])
+                ),
+              S.listItem()
+                .id("pre-transit")
+                .title("Daten an DHL übermittelt")
+                .icon(GiFactory)
+                .child(
+                  S.documentList("shipment")
+                    .title("Daten an DHL übermittelt")
+                    .filter("_type == $type && finalState == $finalState")
+                    .params({
+                      type: "shipment",
+                      finalState: "pre-transit",
                     })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
@@ -117,8 +133,25 @@ export default () =>
                 .child(
                   S.documentList("shipment")
                     .title("Wartend")
-                    .filter("_type == $type && !defined(dhlEvents)")
-                    .params({ type: "shipment" })
+                    .filter("_type == $type && finalState == $finalState")
+                    .params({ type: "shipment", finalState: "pending" })
+                    .menuItems([
+                      ...S.documentTypeList("shipment").getMenuItems(),
+                      S.orderingMenuItem({
+                        title: "Date",
+                        by: [{ field: "date", direction: "desc" }],
+                      }),
+                    ])
+                ),
+              S.listItem()
+                .id("return")
+                .title("zurück an Absender")
+                .icon(GiReturnArrow)
+                .child(
+                  S.documentList("shipment")
+                    .title("zurück an Absender")
+                    .filter("_type == $type && finalState == $finalState")
+                    .params({ type: "shipment", finalState: "return" })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
@@ -134,10 +167,11 @@ export default () =>
                 .child(
                   S.documentList("shipment")
                     .title("Fehler")
-                    .filter(
-                      "_type == $type && !delivered && count(dhlEvents) > $length && dhlEvents[0].statusCode == $status"
-                    )
-                    .params({ type: "shipment", length: 0, status: "failure" })
+                    .filter("_type == $type && finalState == $finalState")
+                    .params({
+                      type: "shipment",
+                      finalState: ["failure"],
+                    })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
@@ -153,10 +187,8 @@ export default () =>
                 .child(
                   S.documentList("shipment")
                     .title("Status unbekannt")
-                    .filter(
-                      "_type == $type && !delivered && count(dhlEvents) > $length && dhlEvents[0].statusCode == $status"
-                    )
-                    .params({ type: "shipment", length: 0, status: "unknown" })
+                    .filter("_type == $type && finalState == $finalState")
+                    .params({ type: "shipment", finalState: "unknown" })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({

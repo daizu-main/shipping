@@ -11,7 +11,8 @@ const getStatusMessage = (arr, str) => {
 
 const getRedirected = (arr) => {
   return Array.isArray(arr) && arr.length > 0
-    ? arr[0].status.includes("The shipment is being brought to")
+    ? arr[0].status.includes("The shipment is being brought to") ||
+        arr[0].status.includes("The shipment is available for pick-up from")
     : false
 }
 
@@ -130,7 +131,7 @@ export default {
       readOnly: true,
       validation: (Rule) =>
         Rule.custom((zip) => {
-          if (/^[0-9]{4,5}$/.test(zip)) {
+          if (/^[ ]*[0-9]{4,5}[ ]*$/.test(zip)) {
             return true
           } else {
             return {
@@ -150,6 +151,54 @@ export default {
       name: "delivered",
       title: "ausgeliefert?",
       type: "boolean",
+    },
+    {
+      name: "finalState",
+      title: "Status der Sendung",
+      description: "für eine bessere Zuordnung der Pakete",
+      type: "string",
+      readOnly: true,
+      options: {
+        list: [
+          {
+            title: "an Empfänger zugestellt",
+            value: "delivered",
+          },
+          {
+            title: "an Packstation zugestellt",
+            value: "packstation",
+          },
+          {
+            title: "in Paketshop eingeliefert",
+            value: "paketshop",
+          },
+          {
+            title: "Zustellung läuft",
+            value: "transit",
+          },
+          {
+            title: "Daten an DHL übermittelt",
+            value: "pre-transit",
+          },
+          {
+            title: "Auftrag eingegangen/eingelesen",
+            value: "pending",
+          },
+          {
+            title: "zurück an Absender",
+            value: "return",
+          },
+          {
+            title: "Fehler",
+            value: "failure",
+          },
+          {
+            title: "unbekannt",
+            value: "unknown",
+          },
+        ],
+        layout: "dropdown",
+      },
     },
     {
       name: "dhlEvents",
@@ -174,7 +223,9 @@ export default {
       const statusMessage = getStatusMessage(dhlEvents, status)
       const redirected = getRedirected(dhlEvents)
       const packstation = getPackstation(dhlEvents)
-      const lastStatusCode = packstation
+      const lastStatusCode = delivered
+        ? "delivered"
+        : packstation
         ? "packstation"
         : redirected
         ? "redirect"
