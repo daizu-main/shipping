@@ -170,7 +170,7 @@ export default () =>
                     .filter("_type == $type && finalState == $finalState")
                     .params({
                       type: "shipment",
-                      finalState: ["failure"],
+                      finalState: "failure",
                     })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
