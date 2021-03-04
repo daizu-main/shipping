@@ -1,9 +1,16 @@
-import { GiFactory, GiTruck, GiCheckMark, GiMailbox } from "react-icons/gi"
+import {
+  GiFactory,
+  GiTruck,
+  GiCheckMark,
+  GiMailbox,
+  GiReturnArrow,
+} from "react-icons/gi"
 import { BsFillExclamationTriangleFill } from "react-icons/bs"
 import { FaQuestion, FaDhl } from "react-icons/fa"
 import { BiBarcodeReader } from "react-icons/bi"
 import { RiLoginBoxLine } from "react-icons/ri"
 import moment from "moment-timezone"
+import { ImSpinner3 } from "react-icons/im"
 
 const getStatusMessage = (arr, str) => {
   return Array.isArray(arr) && arr.length > 0 ? arr[0].statusCode : str
@@ -48,7 +55,8 @@ const getIcon = (lastStatus) => {
       return GiCheckMark
     case "packstation":
       return GiMailbox
-    case "redirect":
+    // case "redirect":
+    case "paketshop":
       return FaDhl
     case "pre-transit":
       return GiFactory
@@ -56,10 +64,16 @@ const getIcon = (lastStatus) => {
       return GiTruck
     case "failure":
       return BsFillExclamationTriangleFill
-    case "Der Auftrag wurde eingelesen":
-      return BiBarcodeReader
-    case "Der Auftrag ist eingegangen":
-      return RiLoginBoxLine
+    case "return":
+      return GiReturnArrow
+    // case "Der Auftrag wurde eingelesen":
+    // return BiBarcodeReader
+    // case "Der Auftrag ist eingegangen":
+    // return RiLoginBoxLine
+    case "pending":
+      return ImSpinner3
+    case "question":
+      return FaQuestion
     default:
       return FaQuestion
   }
@@ -97,7 +111,7 @@ export default {
     },
     {
       name: "duration",
-      title: "Dauer (in Tagen)",
+      title: "Dauer (in Stunden)",
       description:
         "von Beginn bis Ende der Lieferung (bei ausgelieferten Bestellungen), seit der letzten DHL-Statusmeldung (bei nicht ausgelieferten Bestellungen), seit Erstellung der Lieferung",
       type: "number",
@@ -218,19 +232,21 @@ export default {
       orderNumber: "orderNumber",
       status: "status",
       date: "date",
+      finalState: "finalState",
     },
-    prepare({ dhlEvents, delivered, orderNumber, status, date }) {
-      const statusMessage = getStatusMessage(dhlEvents, status)
-      const redirected = getRedirected(dhlEvents)
-      const packstation = getPackstation(dhlEvents)
-      const lastStatusCode = delivered
-        ? "delivered"
-        : packstation
-        ? "packstation"
-        : redirected
-        ? "redirect"
-        : statusMessage
-      const icon = getIcon(lastStatusCode)
+    prepare({ dhlEvents, delivered, orderNumber, status, date, finalState }) {
+      // const statusMessage = getStatusMessage(dhlEvents, status)
+      // const redirected = getRedirected(dhlEvents)
+      // const packstation = getPackstation(dhlEvents)
+      // const lastStatusCode = delivered
+      //   ? "delivered"
+      //   : packstation
+      //   ? "packstation"
+      //   : redirected
+      //   ? "redirect"
+      //   : statusMessage
+      // const icon = getIcon(lastStatusCode)
+      const icon = getIcon(finalState)
       const duration = getDuration(delivered, dhlEvents, date)
       const formattedDate = formatDate(date)
       return {
