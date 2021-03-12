@@ -92,6 +92,13 @@ export default {
       readOnly: true,
     },
     {
+      name: "billbeeId",
+      title: "BillBee-ID",
+      type: "string",
+      // validation: Rule => Rule.required(),
+      readOnly: true,
+    },
+    {
       name: "shippingNumbers",
       title: "Sendungsnummer (DHL)",
       type: "array",
