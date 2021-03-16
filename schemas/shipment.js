@@ -99,6 +99,12 @@ export default {
       readOnly: true,
     },
     {
+      name: "lieferscheinId",
+      title: "Nummer des Lieferscheins",
+      type: "string",
+      readOnly: true,
+    },
+    {
       name: "shippingNumbers",
       title: "Sendungsnummer (DHL)",
       type: "array",
@@ -230,6 +236,20 @@ export default {
         editModal: "popover",
       },
       of: [{ type: "dhlEvent" }],
+    },
+    {
+      name: "firstReminder",
+      title: "erste Erinnerung verschickt?",
+      type: "boolean",
+      readOnly: true,
+      hidden: true,
+    },
+    {
+      name: "secondReminder",
+      title: "zweite Erinnerung verschickt?",
+      type: "boolean",
+      readOnly: true,
+      hidden: true,
     },
   ],
   preview: {
