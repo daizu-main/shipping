@@ -252,6 +252,13 @@ export default {
       hidden: true,
     },
     {
+      name: "reminderFourDays",
+      title: "Erinnerung nach vier Tagen im Paketshop verschickt?",
+      type: "boolean",
+      readOnly: true,
+      hidden: true,
+    },
+    {
       name: "firstReminder",
       title: "erste Erinnerung (Asana) verschickt?",
       type: "boolean",
