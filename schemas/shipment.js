@@ -238,46 +238,47 @@ export default {
       of: [{ type: "dhlEvent" }],
     },
     {
+      name: "name",
+      title: "Name des Empfängers",
+      description: "für den Empfang von E-Mails",
+      type: "string",
+      readOnly: true,
+    },
+    {
       name: "email",
       title: "E-Mail-Adresse des Empfängers",
       type: "string",
       readOnly: true,
-      hidden: true,
     },
     {
       name: "reminderPaketshop",
       title: "Erinnerung an Abholung verschickt?",
       type: "boolean",
       readOnly: true,
-      hidden: true,
     },
     {
       name: "reminderFourDays",
       title: "Erinnerung nach vier Tagen im Paketshop verschickt?",
       type: "boolean",
       readOnly: true,
-      hidden: true,
     },
     {
       name: "firstReminder",
       title: "erste Erinnerung (Asana) verschickt?",
       type: "boolean",
       readOnly: true,
-      hidden: true,
     },
     {
       name: "secondReminder",
       title: "zweite Erinnerung (Asana) verschickt?",
       type: "boolean",
       readOnly: true,
-      hidden: true,
     },
     {
       name: "pendingReminder",
       title: "Erinnerung bei langer Liegezeit verschickt?",
       type: "boolean",
       readOnly: true,
-      hidden: true,
     },
   ],
   preview: {
@@ -290,17 +291,6 @@ export default {
       finalState: "finalState",
     },
     prepare({ dhlEvents, delivered, orderNumber, status, date, finalState }) {
-      // const statusMessage = getStatusMessage(dhlEvents, status)
-      // const redirected = getRedirected(dhlEvents)
-      // const packstation = getPackstation(dhlEvents)
-      // const lastStatusCode = delivered
-      //   ? "delivered"
-      //   : packstation
-      //   ? "packstation"
-      //   : redirected
-      //   ? "redirect"
-      //   : statusMessage
-      // const icon = getIcon(lastStatusCode)
       const icon = getIcon(finalState)
       const duration = getDuration(delivered, dhlEvents, date)
       const formattedDate = formatDate(date)
