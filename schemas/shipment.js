@@ -274,12 +274,6 @@ export default {
       type: "boolean",
       readOnly: true,
     },
-    {
-      name: "pendingReminder",
-      title: "Erinnerung bei langer Liegezeit verschickt?",
-      type: "boolean",
-      readOnly: true,
-    },
   ],
   preview: {
     select: {
