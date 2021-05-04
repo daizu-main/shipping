@@ -28,7 +28,17 @@ export default () =>
                 .id("all-shipments")
                 .title("Alle Lieferungen")
                 .icon(GiTruck)
-                .child(S.documentTypeList("shipment")),
+                .child(
+                  S.documentTypeList("shipment")
+                    .title("Alle Lieferungen")
+                    .menuItems([
+                      ...S.documentTypeList("shipment").getMenuItems(),
+                      S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
+                    ])
+                ),
               S.listItem()
                 .id("delivered")
                 .title("Zugestellte Lieferungen")
@@ -40,6 +50,10 @@ export default () =>
                     .params({ type: "shipment", finalState: "delivered" })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
+                      S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
                       S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
@@ -61,6 +75,10 @@ export default () =>
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
+                      S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
                       }),
@@ -80,6 +98,10 @@ export default () =>
                     })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
+                      S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
                       S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
@@ -101,6 +123,10 @@ export default () =>
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
+                      S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
                       }),
@@ -121,6 +147,10 @@ export default () =>
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
+                      S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
                       }),
@@ -138,6 +168,10 @@ export default () =>
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
+                      S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
                       }),
@@ -154,6 +188,10 @@ export default () =>
                     .params({ type: "shipment", finalState: "return" })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
+                      S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
                       S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
@@ -175,6 +213,10 @@ export default () =>
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
                       S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
+                      S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
                       }),
@@ -191,6 +233,10 @@ export default () =>
                     .params({ type: "shipment", finalState: "unknown" })
                     .menuItems([
                       ...S.documentTypeList("shipment").getMenuItems(),
+                      S.orderingMenuItem({
+                        title: "Dauer",
+                        by: [{ field: "duration", direction: "asc" }],
+                      }),
                       S.orderingMenuItem({
                         title: "Date",
                         by: [{ field: "date", direction: "desc" }],
