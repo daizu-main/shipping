@@ -31,12 +31,18 @@ const getPackstation = (arr) => {
 }
 
 const getDuration = (delivered, dhlEvents, date) => {
-  const shipmentBeginning = delivered
-    ? moment(dhlEvents[dhlEvents.length - 1].time)
-    : Array.isArray(dhlEvents) && dhlEvents.length > 0
-    ? moment(dhlEvents[0].time)
-    : moment(date)
-  const shipmentEnding = delivered ? moment(dhlEvents[0].time) : moment()
+  const shipmentBeginning =
+    delivered && dhlEvents.length > 0
+      ? moment(dhlEvents[dhlEvents.length - 1].time)
+      : Array.isArray(dhlEvents) && dhlEvents.length > 0
+      ? moment(dhlEvents[0].time)
+      : moment(date)
+  const shipmentEnding =
+    delivered && dhlEvents.length > 0
+      ? moment(dhlEvents[0].time)
+      : delivered
+      ? moment(date)
+      : moment()
   const durationNumber = shipmentEnding.diff(shipmentBeginning, "days")
   const unit = durationNumber === 1 ? "day" : "days"
   return `${durationNumber} ${unit}`
