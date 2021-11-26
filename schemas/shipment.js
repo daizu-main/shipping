@@ -30,7 +30,7 @@ const getPackstation = (arr) => {
     : false
 }
 
-const getDuration = (delivered, dhlEvents, date) => {
+const getDuration = (delivered, dhlEvents = [], date) => {
   const shipmentBeginning =
     delivered && dhlEvents.length > 0
       ? moment(dhlEvents[dhlEvents.length - 1].time)
